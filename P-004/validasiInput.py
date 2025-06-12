@@ -34,15 +34,14 @@ try:
     int(nilai_input)
     print("yang anda inputkan berupa integer")
     print(f"Nilai kamu: {nilai_input}")
-except ValueError:
-    # ini akan terjadi error jika yang diinputkan bukan angka (misalnya abc)
-    if float(nilai_input):
+except ValueError:    
+    if float(nilai_input): # ini akan terjadi error jika yang diinputkan bukan angka (misalnya abc)
         print("yang anda inputkan berupa desimal")
         print(f"Nilai kamu: {nilai_input}")
     else:
         print("Input tidak valid tolong masukkan angka.")
         
-    # solusinya: untuk baris 35-39 ganti dengan:
+    # solusinya: blok if dan else diatas dengan:
     try:
         float(nilai_input)
         print("Yang anda inputkan berupa desimal")
@@ -52,10 +51,18 @@ except ValueError:
     
 # Opsi-2 menggunakan try except yang lebih ringkas 
 try:
+    nilai_input = input("Riset Opsi 2 Masukkan angka: ")
     nilai_float = float(nilai_input)
-    if nilai_float.is_integer():
+    if nilai_float.is_integer(): # cek apakah integer?
         print("Yang anda inputkan berupa integer")
     else:
         print("Yang anda inputkan berupa desimal")
 except ValueError:
     print("Input tidak valid, tolong masukkan angka.")
+
+'''
+penjelasan opsi 1 dan 2:
+kenapa yang di cek pertama pada kondisi if bukan desimal dulu .isdecimal()?
+Karena integer itu subset dari float, maka:
+Lebih aman: cek integer dulu → baru float → baru invalid.
+'''
