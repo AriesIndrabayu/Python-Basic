@@ -1,45 +1,47 @@
-print("=== Program Konversi Nilai Mahasiswa ===\n")
+print("=== Program Konversi Nilai Beberapa Siswa ===\n")
 
-daftar_siswa = []
-semua_mapel = set()
-rekap_mapel = {}
+
+daftar_siswa = []  # List of dict
+semua_mapel = set()  # Set untuk kumpulan mapel unik
+rekap_mapel = {}  # Untuk rekap nilai tiap mapel
+
 
 while True:
-    nama = input("\nMasukkan nama siswa (atau ketik 'selesai' untuk berhenti): ")
+    nama = input("Masukkan nama siswa (atau ketik 'selesai' untuk berhenti): ")
     if nama.lower() == "selesai":
         break
-    
-    nilai_dict = {}
+
+    nilai_dict = {}  # Gunakan dict untuk pasangan mapel: nilai
     print(f"\nMasukkan nilai untuk {nama}")
     print("Ketik 'selesai' jika tidak ada lagi mata pelajaran.\n")
 
     while True:
-        mapel = input(" Nama mata pelajaran: ")
+        mapel = input("  Nama mata pelajaran: ")
         if mapel.lower() == "selesai":
             break
-        
+
         try:
-            nilai = float(input(f" Nilai untuk {mapel}: "))
-            # {'IPA': 85, IPS: 90}
+            nilai = float(input(f"  Nilai untuk {mapel}: "))
         except ValueError:
-            print(" Nilai tidak valid, dianggap 0.")
+            print("  Nilai tidak valid, dianggap 0.")
             nilai = 0
-        
+
         nilai_dict[mapel] = nilai
         semua_mapel.add(mapel)
-        
+
+        # Untuk rekap global tiap mapel
         if mapel not in rekap_mapel:
             rekap_mapel[mapel] = []
         rekap_mapel[mapel].append(nilai)
-    
+
     if len(nilai_dict) == 0:
-        print(f"Tidak ada nilai untuk {nama}. Lewati siswa ini.\n")
+        print(f"⚠️ Tidak ada nilai untuk {nama}. Lewati siswa ini.\n")
         continue
-    
-    # Hitung rata-rata:
+
+    # Hitung rata-rata
     total = sum(nilai_dict.values())
     rata2 = total / len(nilai_dict)
-    
+
     # Tentukan predikat
     if rata2 >= 90:
         predikat = "A (Sangat Baik)"
@@ -50,20 +52,19 @@ while True:
     else:
         predikat = "D (Perlu Perbaikan)"
 
+    daftar_siswa.append(
+        {"nama": nama, "nilai": nilai_dict, "rata": rata2, "predikat": predikat}
+    )
 
-    daftar_siswa.append({
-        "nama": nama,
-        "nilai": nilai_dict,
-        "rata": rata2,
-        "predikat": predikat
-    })
 
 # Urutkan berdasarkan rata-rata tertinggi
-daftar_siswa = sorted(daftar_siswa, key=lambda x: x['rata'], reverse=True)
+daftar_siswa = sorted(daftar_siswa, key=lambda x: x["rata"], reverse=True)
+
+
 print("\n=== Rangkuman Nilai Semua Siswa ===\n")
 for i, siswa in enumerate(daftar_siswa, start=1):
     print(f"🏅 Peringkat #{i} | Nama: {siswa['nama']}")
-    for mapel, nilai in siswa['nilai'].items():
+    for mapel, nilai in siswa["nilai"].items():
         print(f"   - {mapel}: {nilai}")
     print(f"   Rata-rata: {siswa['rata']:.2f}")
     print(f"   Predikat : {siswa['predikat']}")
