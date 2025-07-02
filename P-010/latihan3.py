@@ -62,7 +62,7 @@ cetak_struk(
     5000,
     7500,
     nama="Lina",
-    no_hp="208134567890",
+    no_hp="08134567890",
     alamat="Jl. Merdeka 10",
     member="Tidak",
 )
