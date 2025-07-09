@@ -6,110 +6,144 @@ API sederhana berbasis **FastAPI** untuk mengelola catatan harian. Aplikasi ini 
 
 ## 🚀 Fitur Utama
 
-- [x] Ambil semua catatan
-- [x] Ambil catatan berdasarkan ID
-- [ ] (Coming Soon) Tambah, ubah, dan hapus catatan
+- ✅ Ambil semua catatan
+- ✅ Ambil catatan berdasarkan ID
+- ⏳ (Coming Soon) Tambah, ubah, dan hapus catatan
 
 ---
 
 ## 🧠 Teknologi yang Digunakan
 
-- [FastAPI](https://fastapi.tiangolo.com/) - Web framework modern berbasis Python
-- [SQLAlchemy](https://www.sqlalchemy.org/) - ORM untuk mengakses database
-- [Pydantic](https://pydantic-docs.helpmanual.io/) - Validasi skema data
-- SQLite - Database default (bisa diganti MySQL/PostgreSQL)
+- [FastAPI](https://fastapi.tiangolo.com/) — Web framework modern berbasis Python
+- [SQLAlchemy](https://www.sqlalchemy.org/) — ORM untuk mengakses database
+- [Pydantic](https://docs.pydantic.dev/) — Validasi skema data
+- SQLite — Database default (bisa diganti ke MySQL/PostgreSQL)
 
 ---
 
 ## 📁 Struktur Folder
 
+```
 tests/
 ├── test_note_routes.py
+
 app/
-├── main.py # Entry point FastAPI
+├── main.py                   # Entry point FastAPI
 ├── crud/
-│ └── note_crud.py # (opsional) logika manipulasi data
+│   └── note_crud.py          # (opsional) logika manipulasi data
 ├── database/
-│ └── connection.py # Koneksi DB SQLAlchemy
+│   └── connection.py         # Koneksi DB SQLAlchemy
 ├── models/
-│ └── note_model.py # Model Note (SQLAlchemy)
+│   └── note_model.py         # Model Note (SQLAlchemy)
 ├── schemas/
-│ └── note_schema.py # Skema Pydantic
+│   └── note_schema.py        # Skema Pydantic
 ├── routes/
-│ └── note_routes.py # Routing endpoint
-requirements.txt # Dependency Python
+│   └── note_routes.py        # Routing endpoint
+
+requirements.txt              # Dependency Python
+```
 
 ---
 
 ## 🛠️ Instalasi & Menjalankan
 
-1. **Clone repo ini:**
+### 1. Clone Repository
 
+```bash
 git clone https://github.com/AriesIndrabayu/Python-Basic/P-013/catatan-harian-api-001.git
 cd catatan-harian-api-001
+```
 
-2. **Buat dan aktifkan virtual environment (opsional tapi disarankan):**
-   python -m venv venv
-   source venv/bin/activate # Linux/macOS
-   venv\Scripts\activate # Windows
+### 2. Buat & Aktifkan Virtual Environment (Opsional tapi Disarankan)
 
-3. **Install dependencies:**
+```bash
+python -m venv venv
+source venv/bin/activate      # Linux/macOS
+venv\Scripts\activate       # Windows
+```
 
-   pip install -r requirements.txt
+### 3. Install Dependencies
 
-   ### isi file requirements.txt
+```bash
+pip install -r requirements.txt
+```
 
-   - **fastapi** → framework utama untuk membuat REST API
-   - **uvicorn[standard]** → server ASGI untuk menjalankan FastAPI
-   - **pydantic** → untuk validasi input/output (otomatis sudah include di FastAPI, tapi bisa eksplisit)
-   - **sqlalchemy** → ORM untuk koneksi ke database
-   - **mysql-connector-python** → driver koneksi ke MySQL (via SQLAlchemy)
-   - **pytest** → Framework testing untuk unit & integration test
-   - **httpx** → HTTP client async/sync, cocok untuk testing API FastAPI
+#### Isi `requirements.txt`
 
-4. **Jalankan server FastAPI:**
-   uvicorn app.main:app --reload
+- `fastapi` → Framework utama untuk membuat REST API
+- `uvicorn[standard]` → Server ASGI untuk menjalankan FastAPI
+- `pydantic` → Validasi input/output (otomatis termasuk di FastAPI)
+- `sqlalchemy` → ORM untuk koneksi ke database
+- `mysql-connector-python` → Driver koneksi ke MySQL (via SQLAlchemy)
+- `pytest` → Framework testing untuk unit & integration test
+- `httpx` → HTTP client async/sync untuk testing API
 
-5. **Akses dokumentasi otomatis:**
-   - **Swagger UI:** http://localhost:8000/docs
-   - **Redoc:** http://localhost:8000/redoc
+### 4. Jalankan Server FastAPI
+
+```bash
+uvicorn app.main:app --reload
+```
+
+### 5. Akses Dokumentasi API
+
+- **Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs)
+- **ReDoc:** [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+---
 
 ## 📌 Contoh Endpoint
 
-1. **GET Semua Catatan**
-   GET /api/notes
-   http://localhost:8000/api/notes
+### 1. Ambil Semua Catatan
 
-2. **GET Catatan Berdasarkan ID**
-   GET /api/notes/{note_id}
-   http://localhost:8000/api/notes/1
+- **GET** `/api/notes`  
+  → [http://localhost:8000/api/notes](http://localhost:8000/api/notes)
 
-## 📌 Menjalankan test
+### 2. Ambil Catatan Berdasarkan ID
 
-    posisikan terminal di root project lalu ketik:
+- **GET** `/api/notes/{note_id}`  
+  → [http://localhost:8000/api/notes/1](http://localhost:8000/api/notes/1)
 
-    pytest
+---
 
-    Ini otomatis mencari semua file yang diawali dengan test_ dan menjalankan fungsinya.
+## 🧪 Menjalankan Test
 
-    Atau untuk menjalankan file tertentu:
-    pytest tests/test_note_routes.py
+Posisikan terminal di root project, lalu jalankan:
 
-    Hasilnya di Terminal:
-    (venv)
-    Indrabayu@DESKTOP-INDRABAYU MINGW64 /d/Les Private/Materi Ajar/Live/Python-Basic/P13
-    $ pytest
-    ========================================================= test session starts =========================================================
-    platform win32 -- Python 3.13.4, pytest-8.4.1, pluggy-1.6.0
-    rootdir: D:\Les Private\Materi Ajar\Live\Python-Basic\P13
-    plugins: anyio-4.9.0
-    collected 2 items
+```bash
+pytest
+```
 
-    tests\test_note_routes.py ..                                                                                                     [100%]
+Ini akan otomatis mencari dan menjalankan semua file yang diawali `test_`.
 
-    ========================================================== 2 passed in 0.73s ==========================================================
+### Menjalankan Test Tertentu
 
-## Rencana Pengembangan
+```bash
+pytest tests/test_note_routes.py
+```
 
-1.  **_Tambah fitur POST/PUT/DELETE_**
-2.  **_Autentikasi pengguna_**
+### Contoh Output
+
+```
+========================================================= test session starts =========================================================
+platform win32 -- Python 3.13.4, pytest-8.4.1, pluggy-1.6.0
+rootdir: D:\Les Private\Materi Ajar\Live\Python-Basic\P13
+plugins: anyio-4.9.0
+collected 2 items
+
+tests\test_note_routes.py ..                                                                                                     [100%]
+
+========================================================== 2 passed in 0.73s ==========================================================
+```
+
+---
+
+## 📈 Rencana Pengembangan
+
+- [ ] Tambah fitur POST / PUT / DELETE
+- [ ] Tambah autentikasi pengguna
+
+---
+
+## 👤 Author
+
+> Indrabayu – [GitHub](https://github.com/AriesIndrabayu)
