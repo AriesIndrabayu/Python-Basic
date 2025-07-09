@@ -71,8 +71,8 @@ cd catatan-harian-api-001
    uvicorn app.main:app --reload
 
 5. **Akses dokumentasi otomatis:**
-   Swagger UI: http://localhost:8000/docs
-   Redoc: http://localhost:8000/redoc
+   - **Swagger UI:** http://localhost:8000/docs
+   - **Redoc:** http://localhost:8000/redoc
 
 ## 📌 Contoh Endpoint
 
