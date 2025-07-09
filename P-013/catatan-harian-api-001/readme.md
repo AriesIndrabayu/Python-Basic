@@ -54,7 +54,11 @@ cd catatan-harian-api-001
    venv\Scripts\activate # Windows
 
 3. **Install dependencies:**
-   isi file requirements.txt
+
+   pip install -r requirements.txt
+
+   ### isi file requirements.txt
+
    fastapi → framework utama untuk membuat REST API
    uvicorn[standard] → server ASGI untuk menjalankan FastAPI
    pydantic → untuk validasi input/output (otomatis sudah include di FastAPI, tapi bisa eksplisit)
@@ -62,8 +66,6 @@ cd catatan-harian-api-001
    mysql-connector-python → driver koneksi ke MySQL (via SQLAlchemy)
    pytest → Framework testing untuk unit & integration test
    httpx → HTTP client async/sync, cocok untuk testing API FastAPI
-
-   pip install -r requirements.txt
 
 4. **Jalankan server FastAPI:**
    uvicorn app.main:app --reload
