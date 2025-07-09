@@ -59,13 +59,13 @@ cd catatan-harian-api-001
 
    ### isi file requirements.txt
 
-   fastapi → framework utama untuk membuat REST API
-   uvicorn[standard] → server ASGI untuk menjalankan FastAPI
-   pydantic → untuk validasi input/output (otomatis sudah include di FastAPI, tapi bisa eksplisit)
-   sqlalchemy → ORM untuk koneksi ke database
-   mysql-connector-python → driver koneksi ke MySQL (via SQLAlchemy)
-   pytest → Framework testing untuk unit & integration test
-   httpx → HTTP client async/sync, cocok untuk testing API FastAPI
+   - **fastapi** → framework utama untuk membuat REST API
+   - **uvicorn[standard]** → server ASGI untuk menjalankan FastAPI
+   - **pydantic** → untuk validasi input/output (otomatis sudah include di FastAPI, tapi bisa eksplisit)
+   - **sqlalchemy** → ORM untuk koneksi ke database
+   - **mysql-connector-python** → driver koneksi ke MySQL (via SQLAlchemy)
+   - **pytest** → Framework testing untuk unit & integration test
+   - **httpx** → HTTP client async/sync, cocok untuk testing API FastAPI
 
 4. **Jalankan server FastAPI:**
    uvicorn app.main:app --reload
