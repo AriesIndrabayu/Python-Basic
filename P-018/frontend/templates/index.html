@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block title %}Daftar Catatan{% endblock %}
+{% block content %}
+<h3><i class="bi bi-journal-text"></i> Daftar Catatan</h3>
+{% if error %}
+  <div class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+{% endif %}
+
+<form method="get" class="row g-2 align-items-center mb-3">
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="search" placeholder="Cari isi/kategori/keterangan..." value="{{ search }}">
+    </div>
+    <div class="col-sm-2">
+        <select class="form-select" name="size">
+            {% for option in [1, 5, 10, 20, 50] %}
+                <option value="{{ option }}" {% if option == size %}selected{% endif %}>Tampilkan: {{ option }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-sm-2">
+        <select class="form-select" name="status">
+            <option {% if status == "Aktif" %}selected{% endif %}>Aktif</option>
+            <option {% if status == "Nonaktif" %}selected{% endif %}>Nonaktif</option>
+        </select>
+    </div>
+    <div class="col-sm-2">
+        <select class="form-select" name="sort">
+            <option selected>Sort by: Terakhir Diperl</option>
+        </select>
+    </div>
+    <div class="col-sm-1">
+        <button class="btn btn-success">🔍</button>
+    </div>
+    <div class="col-sm-1">
+        <a href="#" class="btn btn-primary">+ Tambah</a>
+    </div>
+</form>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Judul</th>
+            <th>Isi</th>
+            <th>Updated</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for note in notes %}
+        {% set updated = note.updated_at.replace('T', ' ') %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ note.id }}</td>
+            <td>{{ note.judul }}</td>
+            <td>{{ note.isi }}</td>
+            <td>{{ updated[:19] }}</td>
+            <td>
+            <a href="#" class="btn btn-warning btn-sm">Edit</a>
+            <a href="#" class="btn btn-outline-danger btn-sm">Hapus</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<nav>
+  <ul class="pagination justify-content-center">
+    {% for p in range(1, total_pages + 1) %}
+      <li class="page-item {% if p == page %}active{% endif %}">
+        <a class="page-link" href="?page={{ p }}&size={{ size }}&search={{ search }}&status={{ status }}">{{ p }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
+
+{% endblock %}
