@@ -1,0 +1,118 @@
+{% extends "layout.html" %}
+{% block title %}Daftar Catatan{% endblock %}
+{% block content %}
+<h3><i class="bi bi-journal-text"></i> Daftar Catatan</h3>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+<form method="get" class="row g-2 align-items-center mb-3">
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="search" placeholder="Cari isi/kategori/keterangan..." value="{{ search }}">
+    </div>
+    <div class="col-sm-2">
+        <select class="form-select" name="size">
+            {% for option in [1, 5, 10, 20, 50] %}
+                <option value="{{ option }}" {% if option == size %}selected{% endif %}>Tampilkan: {{ option }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-sm-2">
+        <select class="form-select" name="status">
+            <option {% if status == "Aktif" %}selected{% endif %}>Aktif</option>
+            <option {% if status == "Nonaktif" %}selected{% endif %}>Nonaktif</option>
+        </select>
+    </div>
+    <div class="col-sm-2">
+        <select class="form-select" name="sort_by">
+            <option value="updated_at__desc" {% if sort_by == "updated_at__desc" %}selected{% endif %}>Sort: Terakhir Diperbarui</option>
+            <option value="updated_at__asc" {% if sort_by == "updated_at__asc" %}selected{% endif %}>Sort: Terlama</option>
+            <option value="judul__asc" {% if sort_by == "judul__asc" %}selected{% endif %}>Sort: Judul A-Z</option>
+            <option value="judul__desc" {% if sort_by == "judul__desc" %}selected{% endif %}>Sort: Judul Z-A</option>
+        </select>
+    </div>
+    <div class="col-sm-1">
+        <button class="btn btn-success">🔍</button>
+    </div>
+    <div class="col-sm-1">
+        <a href="{{ url_for('tambah_catatan') }}" class="btn btn-primary">+ Tambah</a>
+        
+
+    </div>
+</form>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Judul</th>
+            <th>Isi</th>
+            <th>Updated</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for note in notes %}
+        {% set updated = note.updated_at.replace('T', ' ') %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ note.id }}</td>
+            <td>{{ note.judul }}</td>
+            <td>{{ note.isi }}</td>
+            <td>{{ updated[:19] }}</td>
+            <td>
+            <a href="#" class="btn btn-warning btn-sm">Edit</a>
+            <a href="#" class="btn btn-outline-danger btn-sm">Hapus</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if pagination.total_pages > 1 %}
+    <nav aria-label="Navigasi halaman">
+        <ul class="pagination justify-content-center">
+
+            <!-- Tombol First -->
+            <li class="page-item {% if pagination.page == 1 %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('index', page=1, size=size, search=search, status=status, sort_by=sort_by) }}">First</a>
+            </li>
+
+            <!-- Tombol Previous -->
+            <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('index', page=pagination.page - 1, size=size, search=search, status=status, sort_by=sort_by) }}">Prev</a>
+            </li>
+
+            <!-- Nomor Halaman -->
+            {% for p in pagination.pages %}
+            <li class="page-item {% if p == pagination.page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('index', page=p, size=size, search=search, status=status, sort_by=sort_by) }}">{{ p }}</a>
+            </li>
+            {% endfor %}
+
+            <!-- Tombol Next -->
+            <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('index', page=pagination.page + 1, size=size, search=search, status=status, sort_by=sort_by) }}">Next</a>
+            </li>
+
+            <!-- Tombol Last -->
+            <li class="page-item {% if pagination.page == pagination.total_pages %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('index', page=pagination.total_pages, size=size, search=search, status=status, sort_by=sort_by) }}">Last</a>
+            </li>
+
+        </ul>
+    </nav>
+{% endif %}
+
+
+
+{% endblock %}

@@ -55,3 +55,5 @@ P-013/catatan-harian-api-002/tests/test_note_routes.py
 P-013/catatan-harian-api-002/tests/__pycache__/test_note_routes.cpython-313-pytest-8.4.1.pyc
 .gitignore
 
+P-019/frontend/frontend.zip
+P-019/frontend/app copy.py

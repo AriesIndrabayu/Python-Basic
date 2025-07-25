@@ -21,15 +21,43 @@ def get_all(db: Session, search: Optional[str] = None) -> Optional[List[Note]]:
 
 # Ambil catatan dengan pagination & optional search
 def get_paginated(
-    db: Session, skip: int = 0, limit: int = 10, search: Optional[str] = None
+    db: Session,
+    skip: int = 0,
+    limit: int = 10,
+    search: Optional[str] = None,
+    sort_by: str = "updated_at__desc",
+    status: str = "Aktif",
 ):
     try:
-        query = db.query(Note).filter(Note.deleted_at.is_(None))
+        sort_by = sort_by.lower()
+        part_sort = sort_by.split("__")
+        is_active = status.lower() == "aktif"  # ini akan menghasilkan True/False
+        query = db.query(Note)  # ditampilkan semua dulu
         if search:
             search = f"%{search}%"
-            query = query.filter(Note.isi.ilike(search))
+            query = query.filter(or_(Note.judul.ilike(search), Note.isi.ilike(search)))
+
+        # maintenance data aktif/nonaktif
+        print(is_active)
+        if is_active:
+            query = query.filter(Note.deleted_at.is_(None))
+        else:
+            query = query.filter(Note.deleted_at.is_not(None))
+
         total = query.count()  # untuk memberi tahu jumlah total data yang cocok
-        items = query.order_by(Note.created_at.desc()).offset(skip).limit(limit).all()
+
+        # maintenance sortby
+        if len(part_sort) == 2:
+            field_name, direction = part_sort
+            column = getattr(Note, field_name, None)
+            if column is not None:
+                if direction == "asc":
+                    query = query.order_by(column.asc())
+                elif direction == "desc":
+                    query = query.order_by(column.desc())
+        else:
+            query = query.order_by(Note.updated_at.desc())
+        items = query.offset(skip).limit(limit).all()
         return total, items
     except Exception as e:
         print(f"[ERROR get_paginated] {e}")

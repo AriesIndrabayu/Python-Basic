@@ -1,0 +1,50 @@
+{% extends "layout.html" %} {% block title %}Edit Catatan{% endblock %} {% block
+content %}
+<div class="container mt-4">
+  <h3><i class="bi bi-pencil-square"></i> Edit Catatan</h3>
+
+  {% if get_flashed_messages() %} {% for message in
+  get_flashed_messages(with_categories=true) %}
+  <div
+    class="alert alert-{{ message[0] }} alert-dismissible fade show"
+    role="alert"
+  >
+    {{ message[1] }}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  {% endfor %} {% endif %}
+
+  <form method="POST" class="mt-3">
+    <div class="mb-3">
+      <label for="judul" class="form-label">Judul</label>
+      <input
+        type="text"
+        class="form-control"
+        id="judul"
+        name="judul"
+        value="{{ catatan.judul }}"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="isi" class="form-label">Isi Catatan</label>
+      <textarea class="form-control" id="isi" name="isi" rows="6" required>
+{{ catatan.isi }}</textarea
+      >
+    </div>
+
+    <button type="submit" class="btn btn-success">
+      <i class="bi bi-save"></i> Simpan Perubahan
+    </button>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">
+      <i class="bi bi-arrow-left"></i> Batal
+    </a>
+  </form>
+</div>
+{% endblock %}
